@@ -133,4 +133,4 @@ Session.vim
 .netrwhist
 *~
 
-
+.atom-build.json

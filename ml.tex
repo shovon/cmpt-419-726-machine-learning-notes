@@ -1,8 +1,8 @@
 \documentclass{tufte-handout}
 
-\title{An Example of the Usage of the Tufte-Handout Style\thanks{Inspired by Edward~R. Tufte!}}
+\title{Machine Learning}
 
-\author[The Tufte-LaTeX Developers]{The Tufte-\LaTeX\ Developers}
+\author[Salehen Shovon Rahman]{Salehen Shovon Rahman}
 
 %\date{28 March 2010} % without \date command, current date is supplied
 
@@ -35,68 +35,125 @@
 
 \begin{abstract}
 \noindent
-This document describes the Tufte handout \LaTeX\ document style.
-It also provides examples and comments on the style's use.
-Only a brief overview is presented here;
-for a complete reference, see the sample book.
+Personal notes regarding machine learning.
 \end{abstract}
 
 %\printclassoptions
 
-The Tufte-\LaTeX\ document classes define a style similar to the
-style Edward Tufte uses in his books and handouts.  Tufte's style is known
-for its extensive use of sidenotes, tight integration of graphics with
-text, and well-set typography.  This document aims to be at once a
-demonstration of the features of the Tufte-\LaTeX\ document classes
-and a style guide to their use.
+\section{Polynomial Curve Fitting}\label{sec:polynomial-curve-fitting}
 
-\section{Page Layout}\label{sec:page-layout}
-\subsection{Headings}\label{sec:headings}
-This style provides \textsc{a}- and \textsc{b}-heads (that is,
-\Verb|\section| and \Verb|\subsection|), demonstrated above.
+\newthought{Here's an example machine learning problem}: try to find the best
+polynomial that can potentially fit a set of data points, and have it be fit as
+best as possible. This is known as the polynomial curve fitting problem, and
+it's a supervised regression learning problem.
 
-The Tufte-\LaTeX\ classes will emit an error if you try to use
-\linebreak\Verb|\subsubsection| and smaller headings.
+\begin{marginfigure}
+  \includegraphics[width=\linewidth]{curvefitting.png}
+  \caption{An example data set where we want to fit a polynomial curve into}
+\end{marginfigure}
 
-% let's start a new thought -- a new section
-\newthought{In his later books},\cite{Tufte2006} Tufte
-starts each section with a bit of vertical space, a non-indented paragraph,
-and sets the first few words of the sentence in \textsc{small caps}.  To
-accomplish this using this style, use the \Verb|\newthought| command:  
-\begin{docspec}
-  \doccmd{newthought\{In his later books\}, Tufte starts\ldots}
-\end{docspec}
+\subsection{The Problem}\label{sec:headings}
 
-\subsection{Sidenotes}\label{sec:sidenotes}
-One of the most prominent and distinctive features of this style is the
-extensive use of sidenotes.  There is a wide margin to provide ample room
-for sidenotes and small figures.  Any \Verb|\footnote|s will automatically
-be converted to sidenotes.\footnote{This is a sidenote that was entered
-using the \texttt{\textbackslash footnote} command.}  If you'd like to place ancillary
-information in the margin without the sidenote mark (the superscript
-number), you can use the \Verb|\marginnote| command.\marginnote{This is a
-margin note.  Notice that there isn't a number preceding the note, and
-there is no number in the main text where this note was written.}
+\newthought{Suppose} we are given a training set of $N$ observations, $(x_{1},
+x_{2}, \ldots, x_{N})$ and $(t_{1}, t_{2}, \ldots, x_{N})$, $x_{i}, t_{i} \in
+\mathbb{R}$. We want to find a polynomial $y(x)$ that fits these data the best.
 
-The specification of the \Verb|\sidenote| command is:
-\begin{docspec}
-  \doccmd{sidenote[\docopt{number}][\docopt{offset}]\{\docarg{Sidenote text.}\}}
-\end{docspec}
+Let's start out by defining a $y(x, \mathbf{w})$.
 
-Both the \docopt{number} and \docopt{offset} arguments are optional.  If you
-provide a \docopt{number} argument, then that number will be used as the
-sidenote number.  It will change of the number of the current sidenote only and
-will not affect the numbering sequence of subsequent sidenotes.
+\begin{equation}
+  y(x, \mathbf{w}) = w_0 + w_1x + w_2x^2 + \ldots + w_Mx^M =
+  \sum\limits_{i = 1}^M(w_ix^i)
+\end{equation}
 
-Sometimes a sidenote may run over the top of other text or graphics in the
-margin space.  If this happens, you can adjust the vertical position of the
-sidenote by providing a dimension in the \docopt{offset} argument.  Some
-examples of valid dimensions are:
-\begin{docspec}
-  \ttfamily 1.0in \qquad 2.54cm \qquad 254mm \qquad 6\Verb|\baselineskip|
-\end{docspec}
-If the dimension is positive it will push the sidenote down the page; if the
-dimension is negative, it will move the sidenote up the page.
+How do we measure success? Or, a better question, for what values of the
+coefficients $\mathbf{w}$ will yield the best results? To answer that, we define
+an error function $E$.
+
+\begin{equation}
+  E(\mathbf{w}) = \frac{1}{2}\sum\limits_{i = 1}^N(y(x_i, \mathbf{w}) - t_i)^2
+\end{equation}
+
+We then use the $\arg\min\limits_{x}f(x)$ function to find the value for the
+parameter that yields the lowest value in a given function.
+
+\begin{equation}
+  \mathbf{w}^* = \arg \min\limits_{\mathbf{w}}E(\mathbf{w})
+\end{equation}
+
+$\min\limits_{x} f(x)$ finds the lowest possible value for the
+expression $f(x)$, while $\arg\min\limits_{x} f(x)$ finds the value for $x$
+where $f(x)$ would be the lowest.
+
+So, in other words, we want to find a $\mathbf{w}$ such that $E(\mathbf{w})$ is
+the lowest among the set of all possible values of $\mathbf{w}$.
+
+\newthought{Except}, the attempt at finding a value $\mathbf{w}^*$ such that
+$E(\mathbf{w}^*) = 0$ can become problematic.
+
+Earlier, we mentioned that we had an initial set of training data. However, for
+most cases, when trying to fit the polynomial such that $E(\mathbf{w}^*) = 0$,
+for the training set, we risk having it so that when a test data set is
+introduced, the error function yields a high value. This is known as
+\textit{overfitting}.
+
+\begin{marginfigure}
+  \includegraphics[width=\linewidth]{overfitting.png}
+  \caption{As we can see, the first few polynomials of degree $N < 9$ fit the
+    data fine, even when test data is introduced to the training set, but misses
+    the mark entirely when $N = 9$. This is the result of overfitting.}
+\end{marginfigure}
+
+In the end of the day, although we want the curve to fit the data as best as
+possible, we also want a \textit{genralization} derived from the given training.
+
+\newthought{But first}, before we go ahead with finding a good gneralization,
+for convenience, instead of just using the error function $E$, we use the
+root-mean-square (RMS) error function, defined by
+
+\begin{equation}
+  E_{\text{RMS}} = \sqrt{2E(\mathbf{w}^*)/N}
+\end{equation}
+
+According to the text book, \textit{Pattern Recognition and Machine Learning},
+the reason why we are using RMS, is the following:
+
+\begin{quote}
+  [The] division by $N$ allows us to compare different sizes of data sets
+  on an equal footing, and the square root ensures that $E_{\text{RMS}}$ is
+  measured on the same scale (and in the same units) as the target variable $t$.
+  (p. 7)
+\end{quote}
+
+Now, to actually tune our $\mathbf{w}$ for better generalization, we can split
+our training data into two sets: training set and validation set. In the case of
+finding the polynomial, the training set can be used to find each $w_i \in
+\mathbf{w}$, and the validation set is used to optimize the complexity, which
+can be represented by $M$ (the size of $\mathbf{w}$), or a $\lambda$, which
+will be discussed later.
+
+There are several techniques to used to control overfitting.
+
+\newthought{The first technique} to avoid overfitting is being cross-validation.
+
+Here, we group the data into separate sets. We first ``train'' our parameters to
+a union of all the separated set, while leaving one out. Then we optimize by
+including the one we initially excluded. Afterwards, we ``train'' again with a
+new union of our sets, while leaving yet another one out, but including the one
+that we initially left out, all the way until no sets are left to leave out.
+
+\newthought{And then}, there's regularization for controlling over-fitting.
+
+Notice how the oscillation increases as $M$ increases? This is because the
+magnitudes of the coefficients in $\mathbf{w}$ as $M$ increases.
+
+\begin{marginfigure}
+  \includegraphics[width=\linewidth]{oscillations.png}
+  \caption{The oscillation is far wider for $M = 9$ than $M = 0$}
+\end{marginfigure}
+
+Hello, Universe
+
+\section{Bernoulli trials}
 
 While both the \docopt{number} and \docopt{offset} arguments are optional, they
 must be provided in order.  To adjust the vertical position of the sidenote
@@ -126,11 +183,11 @@ command.\sidenote{The first paragraph of this document includes a citation.}
 The complete list of references may also be printed automatically by using
 the \Verb|\bibliography| command.  (See the end of this document for an
 example.)  If you do not want to print a bibliography at the end of your
-document, use the \Verb|\nobibliography| command in its place.  
+document, use the \Verb|\nobibliography| command in its place.
 
 To enter multiple citations at one location,\cite{Tufte2006,Tufte1990} you can
 provide a list of keys separated by commas and the same optional vertical
-offset argument: \Verb|\cite{Tufte2006,Tufte1990}|.  
+offset argument: \Verb|\cite{Tufte2006,Tufte1990}|.
 \begin{docspec}
   \doccmd{cite[\docopt{offset}]\{\docarg{bibkey1,bibkey2,\ldots}\}}
 \end{docspec}
@@ -148,7 +205,7 @@ use the \docenv{marginfigure} or \docenv{margintable} environments as follows
 
 \begin{marginfigure}%
   \includegraphics[width=\linewidth]{helix}
-  \caption{This is a margin figure.  The helix is defined by 
+  \caption{This is a margin figure.  The helix is defined by
     $x = \cos(2\pi z)$, $y = \sin(2\pi z)$, and $z = [0, 2.7]$.  The figure was
     drawn using Asymptote (\url{http://asymptote.sf.net/}).}
   \label{fig:marginfig}
