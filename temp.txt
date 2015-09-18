@@ -1,0 +1,23 @@
+\begin{table}[h]\index{curvefitting!oscillations}
+  \footnotesize%
+  \begin{center}
+    \begin{tabular}{lccl}
+      \toprule
+        & $M = 0$ & $M = 1$ & $M = 6$ & $M = 9$ \\
+      \midrule
+      $w_0$ 0.19 &  0.82 &   0.31 &        0.35 \\
+      $w_1$      & -1.27 &   7.99 &      232.37 \\
+      $w_2$      &       & -25.43 &    -5321.83 \\
+      $w_3$      &       &  17.37 &    48568.31 \\
+      $w_4$      &       &        &  -231639.30 \\
+      $w_5$      &       &        &   640042.26 \\
+      $w_6$      &       &        & -1061800.52 \\
+      $w_7$      &       &        &  1042400.18 \\
+      $w_8$      &       &        &  -557682.99 \\
+      $w_9$      &       &        &   125201.43 \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \caption{A list of \LaTeX{} font sizes as defined by the \TL document classes.}
+  \label{tab:font-sizes}
+\end{table}

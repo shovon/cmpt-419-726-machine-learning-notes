@@ -1,1 +1,1 @@
-pdflatex ml
+pdflatex -halt-on-error  ml

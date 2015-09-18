@@ -49,7 +49,7 @@ it's a supervised regression learning problem.
 
 \begin{marginfigure}
   \includegraphics[width=\linewidth]{curvefitting.png}
-  \caption{An example data set where we want to fit a polynomial curve into}
+  \caption{An example data set where we want to fit a polynomial curve into.}
 \end{marginfigure}
 
 \subsection{The Problem}\label{sec:headings}
@@ -131,27 +131,97 @@ finding the polynomial, the training set can be used to find each $w_i \in
 can be represented by $M$ (the size of $\mathbf{w}$), or a $\lambda$, which
 will be discussed later.
 
-There are several techniques to used to control overfitting.
+There are several techniques used to control overfitting.
 
-\newthought{The first technique} to avoid overfitting is being cross-validation.
+\newthought{The first technique} to avoid overfitting is cross-validation.
 
 Here, we group the data into separate sets. We first ``train'' our parameters to
 a union of all the separated set, while leaving one out. Then we optimize by
 including the one we initially excluded. Afterwards, we ``train'' again with a
 new union of our sets, while leaving yet another one out, but including the one
-that we initially left out, all the way until no sets are left to leave out.
+that we initially left out, all the way until no sets are left to ``leave out''.
 
 \newthought{And then}, there's regularization for controlling over-fitting.
 
 Notice how the oscillation increases as $M$ increases? This is because the
-magnitudes of the coefficients in $\mathbf{w}$ as $M$ increases.
+magnitudes of the coefficients in $\mathbf{w}$ increases as $M$ increases.
 
 \begin{marginfigure}
   \includegraphics[width=\linewidth]{oscillations.png}
-  \caption{The oscillation is far wider for $M = 9$ than $M = 0$}
+  \caption{Visually, we see that the oscillation increases as $M$ increases.}
 \end{marginfigure}
 
-Hello, Universe
+\begin{table}[h]
+  \footnotesize%
+  \begin{center}
+    \begin{tabular}{lrrrr}
+      \toprule
+       & $M = 0$ & $M = 1$ & $M = 6$ & $M = 9$ \\
+      \midrule
+      $w_0$ & 0.19 &  0.82 &   0.31 &        0.35 \\
+      $w_1$ &      & -1.27 &   7.99 &      232.37 \\
+      $w_2$ &      &       & -25.43 &    -5321.83 \\
+      $w_3$ &      &       &  17.37 &    48568.31 \\
+      $w_4$ &      &       &        &  -231639.30 \\
+      $w_5$ &      &       &        &   640042.26 \\
+      $w_6$ &      &       &        & -1061800.52 \\
+      $w_7$ &      &       &        &  1042400.18 \\
+      $w_8$ &      &       &        &  -557682.99 \\
+      $w_9$ &      &       &        &   125201.43 \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \caption{For higher values of $M$, we see the magnitude of $w_i$ increasing}
+  \label{tab:font-sizes}
+\end{table}
+
+In order to avoid high coefficient magnitudes, we can ``penalize'' them using
+a modified error function, by adding a $\frac{\lambda}{2}\|\mathbf{w}\|$ term
+to the original error function.
+
+\begin{equation}
+  \widetilde{E}(\mathbf{w}) =
+    \frac{1}{2}\sum\limits_{i = 1}^N(y(x_i, \mathbf{w}) - t_i)^2
+      + \frac{\lambda}{2}\|\mathbf{w}\|
+    = E(\mathbf{w}) + \frac{\lambda}{2}\|\mathbf{w}\|
+\end{equation}
+
+If we are to now apply the error function to our trials, we see that the
+ceofficient are no longer large.
+
+\begin{table}[h]
+  \footnotesize%
+  \begin{center}
+    \begin{tabular}{lrrr}
+      \toprule
+       & $\ln\lambda = -\infty$ & $\ln\lambda = -18$ & $\ln\lambda = 9$ \\
+      \midrule
+      $w_0$ &        0.35 &   0.35 &  0.13 \\
+      $w_1$ &      232.37 &   4.74 & -0.05 \\
+      $w_2$ &    -5321.83 &  -0.77 & -0.06 \\
+      $w_3$ &    48568.31 & -31.93 & -0.05 \\
+      $w_4$ &  -231639.30 &  -3.89 & -0.03 \\
+      $w_5$ &   640042.26 &  55.28 & -0.02 \\
+      $w_6$ & -1061800.52 &  41.32 & -0.01 \\
+      $w_7$ &  1042400.18 & -45.95 & -0.00 \\
+      $w_8$ &  -557682.99 & -91.53 &  0.00 \\
+      $w_9$ &   125201.43 &  72.68 &  0.01 \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \caption{For higher values of $\lambda$, the coefficient magnitudes are much
+    lower, possibly even near $0$}
+  \label{tab:font-sizes}
+\end{table}
+
+\begin{figure*}[h]
+  \includegraphics[width=\linewidth]{lambda.png}
+  \caption{As you can see here, even for $M = 9$, previously, the polynomial
+  curve deviated wildly, which could have potentially yielded high error values
+  relative to new potential data}
+\end{figure*}
+
+\break
 
 \section{Bernoulli trials}
 
