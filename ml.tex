@@ -1,6 +1,6 @@
 \documentclass{tufte-handout}
 
-\title{Machine Learning}
+\title{CMPT 419/726 --- Machine Learning}
 
 \author[Salehen Shovon Rahman]{Salehen Shovon Rahman}
 
@@ -60,25 +60,25 @@ x_{2}, \ldots, x_{N})$ and $(t_{1}, t_{2}, \ldots, x_{N})$, $x_{i}, t_{i} \in
 
 Let's start out by defining a $y(x, \mathbf{w})$.
 
-\begin{equation}
+\[
   y(x, \mathbf{w}) = w_0 + w_1x + w_2x^2 + \ldots + w_Mx^M =
   \sum\limits_{i = 1}^M(w_ix^i)
-\end{equation}
+\]
 
 How do we measure success? Or, a better question, for what values of the
 coefficients $\mathbf{w}$ will yield the best results? To answer that, we define
 an error function $E$.
 
-\begin{equation}
+\[
   E(\mathbf{w}) = \frac{1}{2}\sum\limits_{i = 1}^N(y(x_i, \mathbf{w}) - t_i)^2
-\end{equation}
+\]
 
 We then use the $\arg\min\limits_{x}f(x)$ function to find the value for the
 parameter that yields the lowest value in a given function.
 
-\begin{equation}
+\[
   \mathbf{w}^* = \arg \min\limits_{\mathbf{w}}E(\mathbf{w})
-\end{equation}
+\]
 
 $\min\limits_{x} f(x)$ finds the lowest possible value for the
 expression $f(x)$, while $\arg\min\limits_{x} f(x)$ finds the value for $x$
@@ -110,9 +110,9 @@ possible, we also want a \textit{genralization} derived from the given training.
 for convenience, instead of just using the error function $E$, we use the
 root-mean-square (RMS) error function, defined by
 
-\begin{equation}
+\[
   E_{\text{RMS}} = \sqrt{2E(\mathbf{w}^*)/N}
-\end{equation}
+\]
 
 According to the text book, \textit{Pattern Recognition and Machine Learning},
 the reason why we are using RMS, is the following:
@@ -179,12 +179,12 @@ In order to avoid high coefficient magnitudes, we can ``penalize'' them using
 a modified error function, by adding a $\frac{\lambda}{2}\|\mathbf{w}\|$ term
 to the original error function.
 
-\begin{equation}
+\[
   \widetilde{E}(\mathbf{w}) =
     \frac{1}{2}\sum\limits_{i = 1}^N(y(x_i, \mathbf{w}) - t_i)^2
       + \frac{\lambda}{2}\|\mathbf{w}\|
     = E(\mathbf{w}) + \frac{\lambda}{2}\|\mathbf{w}\|
-\end{equation}
+\]
 
 If we are to now apply the error function to our trials, we see that the
 ceofficient are no longer large.
@@ -221,62 +221,58 @@ ceofficient are no longer large.
   error values relative to new potential data}}
 \end{fullwidth}
 
-\section{Bernoulli trials}
+\begin{figure*}[h]
+  \includegraphics[width=\linewidth]{moredata.png}%
+  \caption{On the left, we see an \emph{attempt} at having the curve fitted to
+  the data we have so far; on the right, we see more data added, and the curve
+  appears show a much better approximation.}
+\end{figure*}
 
+\newthought{Finally}, there's the third option: just get more data! A rule of
+thumb is that the number of datapoints should not be any less than five times
+the number of adaptive parameters.
 
+\section{Probability Theory}
 
-\subsection{References}
-References are placed alongside their citations as sidenotes,
-as well.  This can be accomplished using the normal \Verb|\cite|
-command.\sidenote{The first paragraph of this document includes a citation.}
+\subsection{Random Variables}
 
-The complete list of references may also be printed automatically by using
-the \Verb|\bibliography| command.  (See the end of this document for an
-example.)  If you do not want to print a bibliography at the end of your
-document, use the \Verb|\nobibliography| command in its place.
+\newthought{The term} ``random variable'' is can be misleading. A random
+variable is not a variable at all. Instead, it's a mapping from a
+\emph{random event} to a possible outcome.
 
-To enter multiple citations at one location,\cite{Tufte2006,Tufte1990} you can
-provide a list of keys separated by commas and the same optional vertical
-offset argument: \Verb|\cite{Tufte2006,Tufte1990}|.
-\begin{docspec}
-  \doccmd{cite[\docopt{offset}]\{\docarg{bibkey1,bibkey2,\ldots}\}}
-\end{docspec}
+So here's an example random variable:
+
+\[
+  X =
+    \begin{cases}
+      1 \text{ if } \text{heads} \\
+      0 \text{ if } \text{tails} \\
+    \end{cases}
+\]
+
+As we can see here, $X$ is a mapping from the set $\{ \text{heads},
+\text{tails} \}$, to the set $\{ 1, 0 \}$.
+
+More informally, a random variable is a ``label'' to a given element of a set of
+possible events.
+
+To add to the confusion, when we say that we have an event from our random
+variable (for example, an event from $X$ defined above), we express it as
+$X = 0$ or $X = 1$, etc.
+
+The end purpose of random variables is to derive a probability distribution
+given a value $x \in \{ \text{Range of X} \}$. So, going back to the above
+head/tail example, if we wanted to express the probability of getting heads, we
+write $p(X = 1)$, likewise, for expressing the probability of getting tails, we
+write $p(X = 0)$, and so and so forth.
+
+The purpose of using random variables is for us to easily be able to write
+inequalities inside our probability expression. So, for instance, let's define a
+random variable $Y$ that contains a mapping of a list of combinations of two
+dices to the sum of their faces. We can easily express the probability of a
+roll, for example, a value greater than 10, like so: $p(Y > 10)$.
 
 \section{Figures and Tables}\label{sec:figures-and-tables}
-Images and graphics play an integral role in Tufte's work.
-In addition to the standard \docenv{figure} and \docenv{tabular} environments,
-this style provides special figure and table environments for full-width
-floats.
-
-Full page--width figures and tables may be placed in \docenv{figure*} or
-\docenv{table*} environments.  To place figures or tables in the margin,
-use the \docenv{marginfigure} or \docenv{margintable} environments as follows
-(see figure~\ref{fig:marginfig}):
-
-\begin{marginfigure}%
-  \includegraphics[width=\linewidth]{helix}
-  \caption{This is a margin figure.  The helix is defined by
-    $x = \cos(2\pi z)$, $y = \sin(2\pi z)$, and $z = [0, 2.7]$.  The figure was
-    drawn using Asymptote (\url{http://asymptote.sf.net/}).}
-  \label{fig:marginfig}
-\end{marginfigure}
-\begin{Verbatim}
-\begin{marginfigure}
-  \includegraphics{helix}
-  \caption{This is a margin figure.}
-\end{marginfigure}
-\end{Verbatim}
-
-The \docenv{marginfigure} and \docenv{margintable} environments accept an optional parameter \docopt{offset} that adjusts the vertical position of the figure or table.  See the ``\nameref{sec:sidenotes}'' section above for examples.  The specifications are:
-\begin{docspec}
-  \doccmd{begin\{marginfigure\}[\docopt{offset}]}\\
-  \qquad\ldots\\
-  \doccmd{end\{marginfigure\}}\\
-  \mbox{}\\
-  \doccmd{begin\{margintable\}[\docopt{offset}]}\\
-  \qquad\ldots\\
-  \doccmd{end\{margintable\}}\\
-\end{docspec}
 
 Figure~\ref{fig:fullfig} is an example of the \Verb|figure*|
 environment and figure~\ref{fig:textfig} is an example of the normal
