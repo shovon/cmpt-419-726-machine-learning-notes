@@ -214,36 +214,16 @@ ceofficient are no longer large.
   \label{tab:font-sizes}
 \end{table}
 
-\begin{figure*}[h]
+\begin{fullwidth}
   \includegraphics[width=\linewidth]{lambda.png}
-  \caption{As you can see here, even for $M = 9$, previously, the polynomial
-  curve deviated wildly, which could have potentially yielded high error values
-  relative to new potential data}
-\end{figure*}
-
-\break
+  \small{\itshape{As you can see here, even for $M = 9$, previously, the
+  polynomial curve deviated wildly, which could have potentially yielded high
+  error values relative to new potential data}}
+\end{fullwidth}
 
 \section{Bernoulli trials}
 
-While both the \docopt{number} and \docopt{offset} arguments are optional, they
-must be provided in order.  To adjust the vertical position of the sidenote
-while leaving the sidenote number alone, use the following syntax:
-\begin{docspec}
-  \doccmd{sidenote[][\docopt{offset}]\{\docarg{Sidenote text.}\}}
-\end{docspec}
-The empty brackets tell the \Verb|\sidenote| command to use the default
-sidenote number.
 
-If you \emph{only} want to change the sidenote number, however, you may
-completely omit the \docopt{offset} argument:
-\begin{docspec}
-  \doccmd{sidenote[\docopt{number}]\{\docarg{Sidenote text.}\}}
-\end{docspec}
-
-The \Verb|\marginnote| command has a similar \docarg{offset} argument:
-\begin{docspec}
-  \doccmd{marginnote[\docopt{offset}]\{\docarg{Margin note text.}\}}
-\end{docspec}
 
 \subsection{References}
 References are placed alongside their citations as sidenotes,
