@@ -4,8 +4,7 @@
 
 Hi,
 
-Welcome to the beginnings of Tufte LaTeX package to help you
-produce Tufte-style handouts, reports, and notes.
+These are a set of notes that I'm taking from the CMPT 419/726 Machine Learning course, being taught at SFU.
 
 ## Quick Start
 
