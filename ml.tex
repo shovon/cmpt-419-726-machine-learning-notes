@@ -17,6 +17,7 @@
 \usepackage{multicol} % multiple column layout facilities
 \usepackage{lipsum}   % filler text
 \usepackage{fancyvrb} % extended verbatim environments
+\usepackage{tcolorbox}
   \fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
 
 % Standardize command font styles and environments
@@ -28,6 +29,8 @@
 \newcommand{\doccls}[1]{\texttt{#1}}% document class name
 \newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
 \newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+
+\newcommand{\eqname}[1]{\tag*{#1}}% Tag equation with name
 
 \begin{document}
 
@@ -152,7 +155,7 @@ magnitudes of the coefficients in $\mathbf{w}$ increases as $M$ increases.
 \end{marginfigure}
 
 \begin{table}[h]
-  \footnotesize%
+  % \footnotesize%
   \begin{center}
     \begin{tabular}{lrrrr}
       \toprule
@@ -190,7 +193,7 @@ If we are to now apply the error function to our trials, we see that the
 ceofficient are no longer large.
 
 \begin{table}[h]
-  \footnotesize%
+  % \footnotesize%
   \begin{center}
     \begin{tabular}{lrrr}
       \toprule
@@ -214,12 +217,18 @@ ceofficient are no longer large.
   \label{tab:font-sizes}
 \end{table}
 
-\begin{fullwidth}
+\begin{figure*}[h] \label{}
   \includegraphics[width=\linewidth]{lambda.png}
-  \small{\itshape{As you can see here, even for $M = 9$, previously, the
-  polynomial curve deviated wildly, which could have potentially yielded high
-  error values relative to new potential data}}
-\end{fullwidth}
+  \caption{As you can see here, even for $M$ $=$ $9$,
+  previously, the polynomial curve deviated wildly, which could have
+  potentially yielded high error values relative to new potential data.}
+\end{figure*}
+
+\break
+
+\newthought{Finally}, there's the third option: just get more data! A rule of
+thumb is that the number of datapoints should not be any less than five times
+the number of adaptive parameters.
 
 \begin{figure*}[h]
   \includegraphics[width=\linewidth]{moredata.png}%
@@ -228,15 +237,13 @@ ceofficient are no longer large.
   appears show a much better approximation.}
 \end{figure*}
 
-\newthought{Finally}, there's the third option: just get more data! A rule of
-thumb is that the number of datapoints should not be any less than five times
-the number of adaptive parameters.
+\break
 
 \section{Probability Theory}
 
 \subsection{Random Variables}
 
-\newthought{The term} ``random variable'' is can be misleading. A random
+\newthought{The term} ``random variable'' can be misleading. A random
 variable is not a variable at all. Instead, it's a mapping from a
 \emph{random event} to a possible outcome.
 
@@ -271,6 +278,105 @@ inequalities inside our probability expression. So, for instance, let's define a
 random variable $Y$ that contains a mapping of a list of combinations of two
 dices to the sum of their faces. We can easily express the probability of a
 roll, for example, a value greater than 10, like so: $p(Y > 10)$.
+
+\subsection{More on Probability}
+
+\newthought{Imagine} a grid formed from the values in the random variable $X$
+and values in the random variable $Y$, where $x_i \in \{\text{Range of } X\}$,
+and where $y_j \in \{\text{Range of } Y\}$, and $i \in \{ 1, 2, \ldots, M \}$,
+and $j \in \{ 1, 2, \ldots, L \}$. $X$ represents the rows, and $Y$ represents
+the columns. The total number of trials is $N = ML$. We will express a single
+trial as $n_{ij}$.
+
+For the probability that we get a row $x_i$, we express $p(X = x_i)$, and for
+column $y_j$, we express $p(Y = y_j)$. Evaluating the probability for $X$ and
+$Y$, we get:
+
+\begin{equation} \label{equation:probbasic}
+  p(X = x_i) = \frac{r_i}{N}, p(Y = y_j) = \frac{c_j}{N}
+\end{equation}
+
+\sidenote{Bear in mind, though, the value $r_i$ and $c_j$ are not same as
+evaluating $n_{ij}$.}
+
+Now, let's say we are to evaluate the probability that we get a specific column,
+and a specific row, we write $p(X, Y)$. This is known as a \emph{joint
+probability}. Evaluating for $X$ \emph{and} $Y$, we get:
+
+\begin{equation} \label{equation:jointprob}
+  p(X = x_i, Y = y_j) = \frac{n_{ij}}{N}
+\end{equation}
+
+Notice how we get back $n_ij$? This is true even if we are to flip the
+parameters in $p(\cdot, \cdot)$. And so, join probabilities are symmetric,
+
+\begin{equation}
+  p(X = x_i, Y = y_j) = p(Y = y_j, X = x_i)
+\end{equation}
+
+So now, let's go back to columns and rows. To expand on $p(X = x_i)$, we can
+alternatively evaluate it as:
+
+\begin{equation}
+  p(X = x_i) = \sum\limits_{j = 1}^Lp(X = x_i, Y = y_j)
+\end{equation}
+
+Likewise, for $p(Y = y_j)$:
+
+\begin{equation}
+  p(Y = y_j) = \sum\limits_{i = 1}^Mp(X = x_i, Y = y_j)
+\end{equation}
+
+\sidenote{$p(X = x_i)$ and $p(Y = y_j)$ are known as marginal probabilities.}
+
+The above equation expresses the ``sum rule''.
+
+Let's simplify our probability expression. Often times, when we look at the
+event $X = x_i$, we are saying that there exists an $x_i$ from $X$, but in the
+end of the day, we simply don't care about the value of $x_i$. In this case we
+can simplify the expression to write $p(X)$.
+
+We now have conditional probability. With conditional probability, we can
+concisely express the probability of some event \emph{given} some other event.
+With events $X$ and $Y$, we express the probability that we get $X$ given $Y$ as
+$p(X|Y)$. Because we are narrowing our list of probabilities down to a specific
+row ($Y$), then instead of having our probability be the ratio over $N$, we have
+it be the the ratio over the probability of getting some row.
+
+\begin{equation} \label{equation:conditionalprob}
+  p(X = x_i | Y = y_j) = \frac{n_{ij}}{c_i}
+\end{equation}
+
+From \ref{equation:probbasic}, \ref{equation:jointprob}, and
+\ref{equation:conditionalprob}, we can derive the following relationship:
+
+\begin{equation}
+  \begin{aligned}
+    p(X = x_i | Y = y_j) &= \frac{n_{ij}}{N} = \frac{n_{ij}}{c_i} \cdot \frac{c_i}{N} \\
+    & = p(Y = y_j | X = x_i)p(X = x_i)
+  \end{aligned}
+\end{equation}
+
+Which is known as the \emph{product rule} of probability.
+
+% \newthought{So}, in summary, we have two rules of probability.
+
+% \break
+
+\begin{tcolorbox}
+  The Rules of Probability
+  \begin{align}
+    p(X) &= \sum\limits_{Y}p(X, Y) & \text{    Sum Rule} \\
+    p(X, Y) &= p(Y|X)p(X) & \text{    Product Rule}
+  \end{align}
+\end{tcolorbox}
+
+% \begin{tabular}{rl}
+%   Summary & \\
+%   \midrule
+%   \textbf{sum rule} & $p(X) = \sum\limits_{Y}p(X, Y)$ \\
+%   \textbf{product rule} & $p(X, Y) = p(Y|X)p(X)$ \\
+% \end{tabular}
 
 % \bibliography{sample-handout}
 % \bibliographystyle{plainnat}
