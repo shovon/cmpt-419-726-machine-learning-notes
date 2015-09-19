@@ -25,6 +25,19 @@ The sample book can be compiled with the following:
     pdflatex sample-book
     pdflatex sample-book
 
+### Integrating Into Atom
+
+Install the Atom [build package](https://atom.io/packages/build) and add the following configuration to a `.atom-build.json` at the root of the project.
+
+```json
+{
+  "cmd": "pdflatex",
+  "name": "Latex",
+  "args": [ "-halt-on-error", "ml" ],
+  "sh": true
+}
+```
+
 ## Troubleshooting
 
 If you encounter errors of the form,
