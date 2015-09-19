@@ -310,7 +310,7 @@ probability}. Evaluating for $X$ \emph{and} $Y$, we get:
 Notice how we get back $n_ij$? This is true even if we are to flip the
 parameters in $p(\cdot, \cdot)$. And so, join probabilities are symmetric,
 
-\begin{equation}
+\begin{equation}\label{equation:probabilitysymmetry}
   p(X = x_i, Y = y_j) = p(Y = y_j, X = x_i)
 \end{equation}
 
@@ -347,8 +347,8 @@ it be the the ratio over the probability of getting some row.
   p(X = x_i | Y = y_j) = \frac{n_{ij}}{c_i}
 \end{equation}
 
-From \ref{equation:probbasic}, \ref{equation:jointprob}, and
-\ref{equation:conditionalprob}, we can derive the following relationship:
+From (\ref{equation:probbasic}), (\ref{equation:jointprob}), and
+(\ref{equation:conditionalprob}), we can derive the following relationship:
 
 \begin{equation}
   \begin{aligned}
@@ -359,24 +359,35 @@ From \ref{equation:probbasic}, \ref{equation:jointprob}, and
 
 Which is known as the \emph{product rule} of probability.
 
-% \newthought{So}, in summary, we have two rules of probability.
-
-% \break
-
 \begin{tcolorbox}
   The Rules of Probability
   \begin{align}
-    p(X) &= \sum\limits_{Y}p(X, Y) & \text{    Sum Rule} \\
-    p(X, Y) &= p(Y|X)p(X) & \text{    Product Rule}
+    p(X) &= \sum\limits_{Y}p(X, Y) & \text{    Sum Rule} \label{equation:sumrule}\\
+    p(X, Y) &= p(Y|X)p(X) & \text{    Product Rule} \label{equation:productrule}
   \end{align}
 \end{tcolorbox}
 
-% \begin{tabular}{rl}
-%   Summary & \\
-%   \midrule
-%   \textbf{sum rule} & $p(X) = \sum\limits_{Y}p(X, Y)$ \\
-%   \textbf{product rule} & $p(X, Y) = p(Y|X)p(X)$ \\
-% \end{tabular}
+According to (\ref{equation:productrule}), we can rewrite the $p(X, Y)$ in
+(\ref{equation:sumrule}) to:
+
+\begin{equation}
+  p(X) = \sum\limits_{Y}p(X, Y) = \sum\limits_{Y}p(Y|X)p(X)
+\end{equation}
+
+And also, because of (\ref{equation:probabilitysymmetry}), according to
+(\ref{equation:productrule}), we can rewrite $p(X, Y) = p(Y, X)$ to:
+
+\begin{equation}\label{equation:alternatesymmetry}
+  p(Y|X)p(X) = p(X|Y)p(Y)
+\end{equation}
+
+And, we can then isolate $p(Y|X)$ in (\ref{equation:alternatesymmetry})
+
+\begin{equation}
+  p(Y|X) = \frac{p(X|Y)p(Y)}{p(X)}
+\end{equation}
+
+Which is known as \emph{Bayes' Theorem}.
 
 % \bibliography{sample-handout}
 % \bibliographystyle{plainnat}
