@@ -1,3 +1,7 @@
+> Based on [ae9104eed](https://github.com/Tufte-LaTeX/tufte-latex/commit/ae9104eed3e0acea37ed5f966bddf937b24a4717) from Tufte-LaTeX/tufte-latex.
+
+------
+
 Hi,
 
 Welcome to the beginnings of Tufte LaTeX package to help you
@@ -5,25 +9,11 @@ produce Tufte-style handouts, reports, and notes.
 
 ## Quick Start
 
-Try typesetting `sample-handout.tex` with the following sequence
-of commands,
+Try typesetting `ml.tex` with the following command,
 
-    pdflatex sample-handout
-    bibtex   sample-handout
-    pdflatex sample-handout
-    pdflatex sample-handout
+    pdflatex ml
 
-The result should look like `sample-handout.pdf`.
-
-The sample book can be compiled with the following:
-
-    pdflatex sample-book
-    bibtex sample-book
-    texindy --language english sample-book.idx
-    # or makeindex sample-book.idx
-    pdflatex sample-book
-    pdflatex sample-book
-    pdflatex sample-book
+The result should look like `ml.pdf`.
 
 ### Integrating Into Atom
 
