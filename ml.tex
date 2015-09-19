@@ -38,10 +38,28 @@
 
 \begin{abstract}
 \noindent
-Personal notes regarding machine learning.
+These are my personal notes regarding machine learning.
 \end{abstract}
 
 %\printclassoptions
+
+\begin{fullwidth}
+  \begin{tcolorbox}
+    Some Primer
+    \begin{align}
+      \frac{d}{dx}f(g(x)) = \frac{d}{d{g(x)}}f(g(x))\cdot\frac{d}{dx}g(x) = f'(g(x))g'(x) &  & \text{ Chain rule} \\
+      \frac{d}{dx}f(x)g(x) = f'(x)g(x) + f(x)g'(x) & & \text{ Product rule} \\
+      \frac{d}{dx}\frac{f(x)}{g(x)} = \frac{f'(x)g(x) + f(x)g'(x)}{g(x)^2} & & \text{ Quotient rule} \\
+      \frac{d}{dx}x^n = nx^{n - 1} & & \text{ Power rule} \\
+      \frac{d}{dx}\sin x = \cos x, \frac{d}{dx}\cos x = -\sin x, \frac{d}{dx}\tan x = \frac{1}{\cos^2x} = \sec x & & \\
+      e^{\ln n} = n, \frac{d}{dx}e^x = e^x & & \text{ $e$ constant properties} \\
+      \frac{d}{dx}\ln x = \frac{1}{x} & & \\
+      \log_bx = \frac{\log_ex}{\log_eb} = \frac{\ln x}{\ln b} & & \text{ Logarithm identity} \\
+      \frac{d}{dx}\log_bx = \frac{1}{x\ln b} & & \\
+      \frac{d}{dx}n^x = n^x\ln n & &
+    \end{align}
+  \end{tcolorbox}
+\end{fullwidth}
 
 \section{Polynomial Curve Fitting}\label{sec:polynomial-curve-fitting}
 
@@ -138,6 +156,11 @@ There are several techniques used to control overfitting.
 
 \newthought{The first technique} to avoid overfitting is cross-validation.
 
+\begin{marginfigure}
+  \includegraphics[width=\linewidth]{oscillations.png}
+  \caption{Visually, we see that the oscillation increases as $M$ increases.}
+\end{marginfigure}
+
 Here, we group the data into separate sets. We first ``train'' our parameters to
 a union of all the separated set, while leaving one out. Then we optimize by
 including the one we initially excluded. Afterwards, we ``train'' again with a
@@ -148,11 +171,6 @@ that we initially left out, all the way until no sets are left to ``leave out''.
 
 Notice how the oscillation increases as $M$ increases? This is because the
 magnitudes of the coefficients in $\mathbf{w}$ increases as $M$ increases.
-
-\begin{marginfigure}
-  \includegraphics[width=\linewidth]{oscillations.png}
-  \caption{Visually, we see that the oscillation increases as $M$ increases.}
-\end{marginfigure}
 
 \begin{table}[h]
   % \footnotesize%
