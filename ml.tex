@@ -514,7 +514,7 @@ box, given the fruit is an orange. I will leave it to you to verify.
 I have typed out the following, in order to avoid the risk of losing any of it,
 in case my notebook burns up somehow.
 
-So let's say we two events, $a$ and $b$, such that it has the following
+So let's say we have two events, $a$ and $b$, such that it has the following
 probability distributions:
 
 \begin{equation}
@@ -527,7 +527,7 @@ replace the event $a$ to equal $1$, and $b$ to equal $0$.
 
 To get the probability of $\mathcal{D}$, we have the probabilities of $a$ and
 $b$, and so, for each element of $\mathcal{D}$, we have some $\mu$ that dictates
-whether the said element is $a$, or $b$ otherwise.
+whether the said element is $a$, or $b$.
 
 A concise way to express the above would be $p(\mathcal{D}|\mu)$.
 
@@ -539,7 +539,7 @@ ultimately means that $c$ can either by $0$ or $1$!
 
 And so, expanding $p(\mathcal{D}|\mu)$, we get
 
-\begin{equation}
+\begin{equation} \label{equation:bernoulliequation}
   \begin{aligned}
     p(\mathcal{D}|\mu) &= p(\{x_1, x_2, \dots, x_N\}|\mu) \\
                        &= p(x_1|\mu) \cdot p(x_2|\mu) \cdot \ldots \cdot p(x_N|\mu) \\
@@ -547,6 +547,31 @@ And so, expanding $p(\mathcal{D}|\mu)$, we get
                        &= \prod_{i = 1}^N \mu x^i(1 - \mu)^{1 - x_i}
   \end{aligned}
 \end{equation}
+
+Now, we need to find a $\mu$ that will be the highest possible value for the
+expressesion $p(\mathcal{D}|\mu)$. In other words, we want to compute
+
+\begin{equation}
+  \mu* = \arg \max\limits_{\mu}p(\mathcal{D}|\mu)
+\end{equation}
+
+How will we achieve?
+
+First, let's go back to (\ref{equation:bernoulliequation}), and solve for $\mu$.
+
+However, it's going to be very difficult to solve given the fact that 1), each
+of the probabilities are multiplacands, 2) the $\mu$s have an exponent attached.
+
+Fortunately, there's a postulate
+
+\begin{equation} \label{equation:lnidentity}
+  \begin{aligned}
+    \arg \max\limits_x f(x) = \arg\max\limits_x \ln f(x) \\
+    f(x) \in \{\text{monotonically increasing}\}
+  \end{aligned}
+\end{equation}
+
+%TODO: continue on the definition.
 
 % \bibliography{sample-handout}
 % \bibliographystyle{plainnat}
