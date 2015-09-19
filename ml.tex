@@ -441,6 +441,11 @@ two apples and six oranges, and the blue one has three apples and one orange.
 The fruit events will be represented by the random variable $F$. We will also
 be abbreviating ``apple'' with $a$ and ``orange'' with $o$.
 
+\begin{marginfigure}
+  \includegraphics[width=\linewidth]{fruitboxes.png}
+  \caption{The distribution of fruits in our boxes.}
+\end{marginfigure}
+
 The probability distribution of each boxes would look like so:
 
 \begin{align}
@@ -456,7 +461,8 @@ sum and product rule.
 \begin{equation}
   \begin{aligned}
     p(F = a) &= p(F = a|B = r)p(B = r) + p(F = a|B = b)p(B = b)\\
-             &= 0.25 \times 0.4 + 0.75 \times 0.6 = 0.55
+             &= 0.25 \times 0.4 + 0.75 \times 0.6 \\
+             &= 0.55
   \end{aligned}
 \end{equation}
 
@@ -466,10 +472,23 @@ so, we can concisely find the probability of picking an orange with
 $p(F = o) = p(F \neq a) = 1 - p(F = a)$ = 0.45.
 
 Let's say we were asked from which box we had picked a fruit. Without knowing
-what fruit we picked, we only know the probability of the box, which $p(B)$.
+what fruit we picked, we only know the probability of the box, which is $p(B)$.
 This is called the \emph{prior probability}. Now, we find out that the fruit
 that we picked was an orange, and we now have a probability $p(B|F)$, which is
-is called the \emph{posterior probability}.
+called the \emph{posterior probability}. In Bayes' theorem, we take the prior
+and multiply it with the probability of picking orange given the box, $p(F|B)$.
+$p(F|B)$ is called the \emph{likelihood}. Because we want to find the
+probability of a box given a fruit, we narrow the product $p(F|B)p(B)$ by dividing by
+$p(F)$.
+
+So to summarize:
+
+\begin{equation}
+  p(B|F) = \frac{p(F|B)p(B)}{p(F)}
+\end{equation}
+
+Given the above equation, we find that we are more likely to pick from the red
+box, given the fruit is an orange. I will leave it to you to verify.
 
 % \bibliography{sample-handout}
 % \bibliographystyle{plainnat}
