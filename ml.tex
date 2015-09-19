@@ -508,6 +508,46 @@ So to summarize:
 Given the above equation, we find that we are more likely to pick from the red
 box, given the fruit is an orange. I will leave it to you to verify.
 
+\subsection{Some stuff about Bernoulli trials}
+
+\newthought{I have no clue} why the following was in my notebook. Regardless,
+I have typed out the following, in order to avoid the risk of losing any of it,
+in case my notebook burns up somehow.
+
+So let's say we two events, $a$ and $b$, such that it has the following
+probability distributions:
+
+\begin{equation}
+  p(a) = \mu, p(b) = 1 - \mu
+\end{equation}
+
+Now, let's define a $\mathcal{D} = \{x_1, x_2, \ldots, x_N\}$, such that it
+contains an arbitrary $N$ number of events of either $a$ or $b$, except, let's
+replace the event $a$ to equal $1$, and $b$ to equal $0$.
+
+To get the probability of $\mathcal{D}$, we have the probabilities of $a$ and
+$b$, and so, for each element of $\mathcal{D}$, we have some $\mu$ that dictates
+whether the said element is $a$, or $b$ otherwise.
+
+A concise way to express the above would be $p(\mathcal{D}|\mu)$.
+
+It gets even better. Notice how we defined $a = 1$, and $b = 0$? And also,
+$p(a) = \mu$ and $p(b) = 1 - \mu$. Let's define a $c$ so that it is either $a$
+or $b$. This means we can generalize $p(a)$ and $p(b)$ so that
+$p(c) = \mu^c(1 - \mu)^c$. And remember, since $c$ can either $a$ or $b$; this
+ultimately means that $c$ can either by $0$ or $1$!
+
+And so, expanding $p(\mathcal{D}|\mu)$, we get
+
+\begin{equation}
+  \begin{aligned}
+    p(\mathcal{D}|\mu) &= p(\{x_1, x_2, \dots, x_N\}|\mu) \\
+                       &= p(x_1|\mu) \cdot p(x_2|\mu) \cdot \ldots \cdot p(x_N|\mu) \\
+                       &= \prod_{i = 1}^N p(x_i|\mu) \\
+                       &= \prod_{i = 1}^N \mu x^i(1 - \mu)^{1 - x_i}
+  \end{aligned}
+\end{equation}
+
 % \bibliography{sample-handout}
 % \bibliographystyle{plainnat}
 
