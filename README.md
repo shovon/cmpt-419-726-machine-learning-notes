@@ -1,8 +1,8 @@
 > Based on [ae9104eed](https://github.com/Tufte-LaTeX/tufte-latex/commit/ae9104eed3e0acea37ed5f966bddf937b24a4717) from Tufte-LaTeX/tufte-latex.
 
-## [Get the Compiled PDF Here](https://github.com/shovon/cmpt-419-726-machine-learning-notes/blob/master/ml.pdf)
-
 ------
+
+**[Get the Compiled PDF Here](https://github.com/shovon/cmpt-419-726-machine-learning-notes/blob/master/ml.pdf)**
 
 Hi,
 
