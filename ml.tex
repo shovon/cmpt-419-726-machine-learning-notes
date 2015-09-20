@@ -55,6 +55,7 @@ These are my personal notes regarding machine learning.
       e^{\ln n} = n, \frac{d}{dx}e^x = e^x & & \text{ $e$ constant properties} \\
       \frac{d}{dx}\ln x = \frac{1}{x} & & \\
       \log_bx = \frac{\log_ex}{\log_eb} = \frac{\ln x}{\ln b} & & \text{ Logarithm identity} \\
+      \log_bmn = \log_bm + \log_bn & & \text{ Product inside logarithms} \\
       \frac{d}{dx}\log_bx = \frac{1}{x\ln b} & & \\
       \frac{d}{dx}n^x = n^x\ln n & &
     \end{align}
@@ -276,7 +277,11 @@ We can express E as just about anything.
 \end{align}
 
 And also, we denote the probability of an event \emph{not} happening as the
-subtraction $p(\text{not } E) = 1 - p(E)$.
+subtraction
+
+\begin{equation} \label{equation:probabilitynot}
+  p(\text{not } E) = 1 - p(E)
+\end{equation}
 
 \subsection{Random Variables}
 
@@ -321,7 +326,7 @@ express multiple events concisely.
 For example, let's define a random variable $Y$ that contains a mapping of a
 list of events given by the sum of the faces of two dice rolls. Let's say we
 wanted to find the probability of the event that the faces of the two dice rolls
-sum to $10$. Instead of writing every single possible event---
+sum to $10$ or less. Instead of writing every single possible event---
 e.g. $p(Y = 2 \text{ or } Y = 3 \text{ or } \ldots \text{ or } Y = 10)$---we can
 simply express the event as an inequality, e.g. $p(Y \leq 10)$.
 
@@ -332,11 +337,11 @@ and values in the random variable $Y$, where $x_i \in \{\text{Range of } X\}$,
 and where $y_j \in \{\text{Range of } Y\}$, and $i \in \{ 1, 2, \ldots, M \}$,
 and $j \in \{ 1, 2, \ldots, L \}$. $X$ represents the rows, and $Y$ represents
 the columns \sidenote{In the textbook, $X$ represents the columns and $Y$
-represents. Why did I set $X$ to be the rows, $Y$ as the columns? It was a total
-mistake on my part. I'm not gonna change it, though; too much time needed.
-Either ways, trying to mentally remap between the textbook and these notes is
-good excercise anyways}. The total number of trials is $N = ML$. We will express
-a single trial as $n_{ij}$.
+represents the rows. Why did I set $X$ to be the rows, $Y$ as the columns? It
+was a total mistake on my part. I'm not gonna change it, though; too much time
+needed. Either ways, trying to mentally remap between the textbook and these
+notes is good excercise anyways}. The total number of trials is $N = ML$. We
+will express a single trial as $n_{ij}$.
 
 For the probability that we get a row $x_i$, we express $p(X = x_i)$, and for
 column $y_j$, we express $p(Y = y_j)$. Evaluating the probability for $X$ and
@@ -350,8 +355,8 @@ $Y$, we get:
 evaluating $n_{ij}$.}
 
 Now, let's say we are to evaluate the probability that we get a specific column,
-and a specific row, we write $p(X, Y)$. This is known as a \emph{joint
-probability}. Evaluating for $X$ \emph{and} $Y$, we get:
+and a specific row, we write $p(X = x_i, Y = y_i)$. This is known as a
+\emph{joint probability}. Evaluating for $X$ \emph{and} $Y$, we get:
 
 \begin{equation} \label{equation:jointprob}
   p(X = x_i, Y = y_j) = \frac{n_{ij}}{N}
@@ -386,12 +391,13 @@ event $X = x_i$, we are saying that there exists an $x_i$ from $X$, but in the
 end of the day, we simply don't care about the value of $x_i$. In this case we
 can simplify the expression to write $p(X)$.
 
-We now have conditional probability. With conditional probability, we can
-concisely express the probability of some event \emph{given} some other event.
-With events $X$ and $Y$, we express the probability that we get $X$ given $Y$ as
-$p(X|Y)$. Because we are narrowing our list of probabilities down to a specific
-column ($Y$), then instead of having our probability be the ratio over $N$, we
-have it be the the ratio over the probability of getting some column.
+\newthought{Now, let's talk about} conditional probability. With conditional
+probability, we can concisely express the probability of some event \emph{given}
+some other event. With events $X$ and $Y$, we express the probability that we
+get $X$ given $Y$ as $p(X|Y)$. Because we are narrowing our list of
+probabilities down to a specific column ($Y$), then instead of having our
+probability be the ratio over $N$, we have it be the the ratio over the
+probability of getting some column.
 
 \begin{equation} \label{equation:conditionalprob}
   p(X = x_i | Y = y_j) = \frac{n_{ij}}{c_i}
@@ -486,8 +492,8 @@ sum and product rule.
 
 Since there are only apples and oranges, we can argue that the probability that
 we pick an orange is equally the probability of \emph{not} picking an apple. And
-so, we can concisely find the probability of picking an orange with
-$p(F = o) = p(F \neq a) = 1 - p(F = a)$ = 0.45.
+so by (\ref{equation:probabilitynot}), we can concisely find the probability of
+picking an orange with $p(F = o) = p(F \neq a) = 1 - p(F = a)$ = 0.45.
 
 Let's say we were asked from which box we had picked a fruit. Without knowing
 what fruit we picked, we only know the probability of the box, which is $p(B)$.
@@ -510,15 +516,23 @@ box, given the fruit is an orange. I will leave it to you to verify.
 
 \subsection{Some stuff about Bernoulli trials}
 
-\newthought{I have no clue} why the following was in my notebook. Regardless,
-I have typed out the following, in order to avoid the risk of losing any of it,
-in case my notebook burns up somehow.
+% \sidenote{I have no clue why the following
+% was in my notebook. Regardless, I have typed out the following, in order to
+% avoid the risk of losing any of it, in case my notebook burns up somehow.}:
 
-So let's say we have two events, $a$ and $b$, such that it has the following
-probability distributions:
+\newthought{Earlier}, we talked about probabilities in general, as well as
+bayes theorem. Here, we are going to talk about probabilities of random
+variables that only have two events, and two events only. We are going to talk
+about Bernoulli trials.
+
+Let's say we had two events, $a$ and $b$, such that it has the following
+probability distributions
 
 \begin{equation}
-  p(a) = \mu, p(b) = 1 - \mu
+  \begin{aligned}
+    p(a) &= \mu \\
+    p(b) &= 1 - \mu
+  \end{aligned}
 \end{equation}
 
 Now, let's define a $\mathcal{D} = \{x_1, x_2, \ldots, x_N\}$, such that it
@@ -588,7 +602,7 @@ derivative, making it easier to solve for $\mu$.
 \end{equation}
 
 And then, we substitute $\sum\limits_{i = 1}^Nx_i$ for an unknown $h$, and
-replace $\sum\limits_{i = 1}^Nx_i$ for an unknown t, and finally isolate $\mu$.
+replace $\sum\limits_{i = 1}^N1-x_i$ for an unknown t, and finally isolate $\mu$.
 
 \begin{equation}
   \begin{aligned}
