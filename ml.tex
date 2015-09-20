@@ -571,7 +571,32 @@ Fortunately, there's a postulate
   \end{aligned}
 \end{equation}
 
-%TODO: continue on the definition.
+And so, this means that we can compute $\ln p(\mathcal{D}|\mu)$, and then 1)
+convert the products into sums, and 2) eliminate the exponent by getting the
+derivative, making it easier to solve for $\mu$.
+
+\begin{equation}
+  \begin{aligned}
+    0 = p(\mathcal{D}|\mu)              &= \prod\limits_{i = 1}^N \mu^{x_i}(1 - \mu)^{1 - x_i} \rightarrow \\
+    \ln p(\mathcal{D}|\mu)              &= \ln \prod\limits_{i = 1}^N \mu^{x_i}(1 - \mu)^{1 - x_i} \\
+                                        &= \sum\limits_{i = 1}^N \ln \mu^{x_i}(1 - \mu)^{1 - x_i} \\
+                                        &= \sum\limits_{i = 1}^N x^i \ln \mu + (1 - x_i)\ln (1 - \mu) \rightarrow \\
+    \frac{d}{dx} \ln p(\mathcal{D}|\mu) &= \frac{d}{dx} \sum\limits_{i = 1}^N x^i \ln \mu + (1 - x_i)\ln (1 - \mu) \\
+                                        &= \sum\limits_{i = 1}^N \frac{x_i}{\mu} - \frac{1 - x_i}{1 - \mu} \\
+                                        &= \frac{1}{\mu} (\sum\limits_{i = 1}^N x_i) - \frac{1}{1 - \mu}(\sum\limits_{i = 1}^N1 - x_i)
+  \end{aligned}
+\end{equation}
+
+And then, we substitute $\sum\limits_{i = 1}^Nx_i$ for an unknown $h$, and
+replace $\sum\limits_{i = 1}^Nx_i$ for an unknown t, and finally isolate $\mu$.
+
+\begin{equation}
+  \begin{aligned}
+    \frac{d}{dx} \ln p(\mathcal{D}|\mu) = 0 &= \frac{h}{\mu} - \frac{t}{1 - \mu} \rightarrow \\
+    % 0 &= \frac{h}{\mu} - \frac{t}{1 - \mu} \rightarrow \\
+    \mu &= \frac{h}{h + t}
+  \end{aligned}
+\end{equation}
 
 % \bibliography{sample-handout}
 % \bibliographystyle{plainnat}
