@@ -199,7 +199,8 @@ magnitudes of the coefficients in $\mathbf{w}$ increases as $M$ increases.
 
 In order to avoid high coefficient magnitudes, we can ``penalize'' them using
 a modified error function, by adding a $\frac{\lambda}{2}\|\mathbf{w}\|$ term
-to the original error function.
+to the original error function. That added term is called a ``regularizer''
+(more about regularizers, later).
 
 \begin{equation}
   \widetilde{E}(\mathbf{w}) =
