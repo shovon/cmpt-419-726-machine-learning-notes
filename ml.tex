@@ -62,12 +62,13 @@ These are my personal notes regarding machine learning.
   \end{tcolorbox}
 \end{fullwidth}
 
+\section{Two kinds of problems}
+
+There are two kinds of problems: \em{classifcation} problems and \em{regression} problems. Both of these are split into many different types of problems themselves. \sidenote{Whether nor not they overlap in some kinds of problems is unclear.}
+
 \section{Polynomial Curve Fitting}\label{sec:polynomial-curve-fitting}
 
-\newthought{Here's an example machine learning problem}: try to find the best
-polynomial that can potentially fit a set of data points, and have it be fit as
-best as possible. This is known as the polynomial curve fitting problem, and
-it's a supervised regression learning problem.
+\newthought{Here's an example machine learning problem}: try to find the best polynomial that can potentially fit a set of data points, and have it be fit as best as possible. This is known as the polynomial curve fitting problem, and it's a supervised regression learning problem.
 
 \begin{marginfigure}
   \includegraphics[width=\linewidth]{curvefitting.png}
@@ -76,79 +77,56 @@ it's a supervised regression learning problem.
 
 \subsection{The Problem}\label{sec:headings}
 
-\newthought{Suppose} we are given a training set of $N$ observations, $(x_{1},
-x_{2}, \ldots, x_{N})$ and $(t_{1}, t_{2}, \ldots, x_{N})$, $x_{i}, t_{i} \in
-\mathbb{R}$. We want to find a polynomial $y(x)$ that fits these data the best.
+\newthought{Suppose} we are given a training set of $N$ observations, $(x_{1}, x_{2}, \ldots, x_{N})$ and $(t_{1}, t_{2}, \ldots, x_{N})$, $x_{i}, t_{i} \in \mathbb{R}$. We want to find a polynomial $y(x)$ that fits these data the best.
 
 Let's start out by defining a $y(x, \mathbf{w})$.
 
 \begin{equation}
-  y(x, \mathbf{w}) = w_0 + w_1x + w_2x^2 + \ldots + w_Mx^M =
-  \sum\limits_{i = 1}^M(w_ix^i)
+  y(x, \mathbf{w}) = w_0 + w_1x + w_2x^2 + \ldots + w_Mx^M = \sum\limits_{i = 1}^M(w_ix^i)
 \end{equation}
 
-How do we measure success? Or, a better question, for what values of the
-coefficients $\mathbf{w}$ will yield the best results? To answer that, we define
-an error function $E$.
+How do we measure success? Or, a better question, for what values of the coefficients $\mathbf{w}$ will yield the best results? To answer that, we define an error function $E$.
 
 \begin{equation}
   E(\mathbf{w}) = \frac{1}{2}\sum\limits_{i = 1}^N(y(x_i, \mathbf{w}) - t_i)^2
 \end{equation}
 
-We then use the $\arg\min\limits_{x}f(x)$ function to find the value for the
-parameter that yields the lowest value in a given function.
+We then use the $\arg\min\limits_{x}f(x)$ function to find the value for the parameter that yields the lowest value in a given function.
 
 \begin{equation}
   \mathbf{w}^* = \arg \min\limits_{\mathbf{w}}E(\mathbf{w})
 \end{equation}
 
 $\min\limits_{x} f(x)$ finds the lowest possible value for the
-expression $f(x)$, while $\arg\min\limits_{x} f(x)$ finds the value for $x$
-where $f(x)$ would be the lowest.
+expression $f(x)$, while $\arg\min\limits_{x} f(x)$ finds the value for $x$ where $f(x)$ would be the lowest.
 
-So, in other words, we want to find a $\mathbf{w}$ such that $E(\mathbf{w})$ is
-the lowest among the set of all possible values of $\mathbf{w}$.
+So, in other words, we want to find a $\mathbf{w}$ such that $E(\mathbf{w})$ is the lowest among the set of all possible values of $\mathbf{w}$.
 
-\newthought{Except}, the attempt at finding a value $\mathbf{w}^*$ such that
-$E(\mathbf{w}^*) = 0$ can become problematic.
+\newthought{Except}, the attempt at finding a value $\mathbf{w}^*$ such that $E(\mathbf{w}^*) = 0$ can become problematic.
 
-Earlier, we mentioned that we had an initial set of training data. However, for
-most cases, when trying to fit the polynomial such that $E(\mathbf{w}^*) = 0$,
-for the training set, we risk having it so that when a test data set is
-introduced, the error function yields a high value. This is known as
-\textit{overfitting}.
+Earlier, we mentioned that we had an initial set of training data. However, for most cases, when trying to fit the polynomial such that $E(\mathbf{w}^*) = 0$, for the training set, we risk having it so that when a test data set is introduced, the error function yields a high value. This is known as \textit{overfitting}.
 
 \begin{marginfigure}
   \includegraphics[width=\linewidth]{overfitting.png}
   \caption{As we can see, the first few polynomials of degree $N < 9$ fit the
-    data fine, even when test data is introduced to the training set, but misses
-    the mark entirely when $N = 9$. This is the result of overfitting.}
+    data fine, even when test data is introduced to the training set, but misses the mark entirely when $N = 9$. This is the result of overfitting.}
 \end{marginfigure}
 
-In the end of the day, although we want the curve to fit the data as best as
-possible, we also want a \textit{genralization} derived from the given training.
+In the end of the day, although we want the curve to fit the data as best as possible, we also want a \textit{genralization} derived from the given training.
 
-\newthought{But first}, before we go ahead with finding a good gneralization,
-for convenience, instead of just using the error function $E$, we use the
-root-mean-square (RMS) error function, defined by
+\newthought{But first}, before we go ahead with finding a good gneralization, for convenience, instead of just using the error function $E$, we use the root-mean-square (RMS) error function, defined by
 
 \begin{equation}
   E_{\text{RMS}} = \sqrt{2E(\mathbf{w}^*)/N}
 \end{equation}
 
-According to the text book, \textit{Pattern Recognition and Machine Learning},
-the reason why we are using RMS, is the following:
+According to the text book, \textit{Pattern Recognition and Machine Learning}, the reason why we are using RMS, is the following:
 
 \begin{quote}
-  [The] division by $N$ allows us to compare different sizes of data sets
-  on an equal footing, and the square root ensures that $E_{\text{RMS}}$ is
-  measured on the same scale (and in the same units) as the target variable $t$.
-  (p. 7)
+  [The] division by $N$ allows us to compare different sizes of data sets on an equal footing, and the square root ensures that $E_{\text{RMS}}$ is measured on the same scale (and in the same units) as the target variable $t$. (p. 7)
 \end{quote}
 
-Now, to actually tune our $\mathbf{w}$ for better generalization, we can split
-our training data into two sets: training set and validation set. In the case of
-finding the polynomial, the training set can be used to find each $w_i \in
+Now, to actually tune our $\mathbf{w}$ for better generalization, we can split our training data into two sets: training set and validation set. In the case of finding the polynomial, the training set can be used to find each $w_i \in
 \mathbf{w}$, and the validation set is used to optimize the complexity, which
 can be represented by $M$ (the size of $\mathbf{w}$), or a $\lambda$, which
 will be discussed later.
@@ -162,16 +140,11 @@ There are several techniques used to control overfitting.
   \caption{Visually, we see that the oscillation increases as $M$ increases.}
 \end{marginfigure}
 
-Here, we group the data into separate sets. We first ``train'' our parameters to
-a union of all the separated set, while leaving one out. Then we optimize by
-including the one we initially excluded. Afterwards, we ``train'' again with a
-new union of our sets, while leaving yet another one out, but including the one
-that we initially left out, all the way until no sets are left to ``leave out''.
+Here, we group the data into separate sets. We first ``train'' our parameters to a union of all the separated set, while leaving one out. Then we optimize by including the one we initially excluded. Afterwards, we ``train'' again with a new union of our sets, while leaving yet another one out, but including the one that we initially left out, all the way until no sets are left to ``leave out''.
 
 \newthought{And then}, there's regularization for controlling over-fitting.
 
-Notice how the oscillation increases as $M$ increases? This is because the
-magnitudes of the coefficients in $\mathbf{w}$ increases as $M$ increases.
+Notice how the oscillation increases as $M$ increases? This is because the magnitudes of the coefficients in $\mathbf{w}$ increases as $M$ increases.
 
 \begin{table}[h]
   % \footnotesize%
@@ -197,10 +170,7 @@ magnitudes of the coefficients in $\mathbf{w}$ increases as $M$ increases.
   \label{tab:font-sizes}
 \end{table}
 
-In order to avoid high coefficient magnitudes, we can ``penalize'' them using
-a modified error function, by adding a $\frac{\lambda}{2}\|\mathbf{w}\|$ term
-to the original error function. That added term is called a ``regularizer''
-(more about regularizers, later).
+In order to avoid high coefficient magnitudes, we can ``penalize'' them using a modified error function, by adding a $\frac{\lambda}{2}\|\mathbf{w}\|$ term to the original error function. That added term is called a ``regularizer'' (more about regularizers, later).
 
 \begin{equation}
   \widetilde{E}(\mathbf{w}) =
@@ -209,8 +179,7 @@ to the original error function. That added term is called a ``regularizer''
     = E(\mathbf{w}) + \frac{\lambda}{2}\|\mathbf{w}\|
 \end{equation}
 
-If we are to now apply the error function to our trials, we see that the
-ceofficient are no longer large.
+If we are to now apply the error function to our trials, we see that the ceofficient are no longer large.
 
 \begin{table}[h]
   % \footnotesize%
@@ -239,30 +208,23 @@ ceofficient are no longer large.
 
 \begin{figure*}[h] \label{}
   \includegraphics[width=\linewidth]{lambda.png}
-  \caption{As you can see here, even for $M$ $=$ $9$,
-  previously, the polynomial curve deviated wildly, which could have
-  potentially yielded high error values relative to new potential data.}
+  \caption{As you can see here, even for $M$ $=$ $9$, previously, the polynomial curve deviated wildly, which could have potentially yielded high error values relative to new potential data.}
 \end{figure*}
 
 \break
 
-\newthought{Finally}, there's the third option: just get more data! A rule of
-thumb is that the number of datapoints should not be any less than five times
-the number of adaptive parameters.
+\newthought{Finally}, there's the third option: just get more data! A rule of thumb is that the number of datapoints should not be any less than five times the number of adaptive parameters.
 
 \begin{figure*}[h]
   \includegraphics[width=\linewidth]{moredata.png}%
-  \caption{On the left, we see an \emph{attempt} at having the curve fitted to
-  the data we have so far; on the right, we see more data added, and the curve
-  appears show a much better approximation.}
+  \caption{On the left, we see an \emph{attempt} at having the curve fitted to the data we have so far; on the right, we see more data added, and the curve appears show a much better approximation.}
 \end{figure*}
 
 \break
 
 \section{Probability Theory}
 
-\newthought{In probability}, we have a function $p$ that returns a probability
-of a given event $E$, in the range between $0$ and $1$.
+\newthought{In probability}, we have a function $p$ that returns a probability of a given event $E$, in the range between $0$ and $1$.
 
 \begin{equation}
   p(E) \in [0, 1]
@@ -277,8 +239,7 @@ We can express E as just about anything.
   & p(\text{I win the lottery})
 \end{align}
 
-And also, we denote the probability of an event \emph{not} happening as the
-subtraction
+And also, we denote the probability of an event \emph{not} happening as the subtraction
 
 \begin{equation} \label{equation:probabilitynot}
   p(\text{not } E) = 1 - p(E)
@@ -286,12 +247,9 @@ subtraction
 
 \subsection{Random Variables}
 
-\newthought{If we have} a list of possible events that we want to plug in to
-$p$, we use what is called a ``random variable''.
+\newthought{If we have} a list of possible events that we want to plug in to $p$, we use what is called a ``random variable''.
 
-The term ``random variable'' can be misleading. A random variable is not a
-variable at all. Instead, it's a mapping from a \emph{random event} to a
-possible outcome.
+The term ``random variable'' can be misleading. A random variable is not a variable at all. Instead, it's a mapping from a \emph{random event} to a possible outcome.
 
 So here's an example random variable:
 
@@ -304,74 +262,43 @@ So here's an example random variable:
 \end{equation}
 
 As we can see here, $X$ is a mapping from the set $\{ \text{heads},
-\text{tails} \}$, to the set $\{ 1, 0 \}$. Bear in mind, although the above
-example is showing a mapping of only two elements, a random variable can consist
-of many more.
+\text{tails} \}$, to the set $\{ 1, 0 \}$. Bear in mind, although the above example is showing a mapping of only two elements, a random variable can consist of many more.
 
-More informally, a random variable is a ``label'' to a given element of a set of
-possible events.
+More informally, a random variable is a ``label'' to a given element of a set of possible events.
 
-To add to the confusion, when we say that we have an event from our random
-variable (for example, an event from $X$ defined above), we express it as
-$X = 0$ or $X = 1$, etc.
+To add to the confusion, when we say that we have an event from our random variable (for example, an event from $X$ defined above), we express it as $X = 0$ or $X = 1$, etc.
 
-The end purpose of random variables is to derive a probability distribution
-given a value $x \in \{ \text{Range of X} \}$. So, going back to the above
-head/tail example, if we wanted to express the probability of getting heads, we
-write $p(X = 1)$, likewise, for expressing the probability of getting tails, we
-write $p(X = 0)$, and so and so forth.
+The end purpose of random variables is to derive a probability distribution given a value $x \in \{ \text{Range of X} \}$. So, going back to the above head/tail example, if we wanted to express the probability of getting heads, we write $p(X = 1)$, likewise, for expressing the probability of getting tails, we write $p(X = 0)$, and so and so forth.
 
-The other purpose of using random variables is for us to easily be able to
-express multiple events concisely.
+The other purpose of using random variables is for us to easily be able to express multiple events concisely.
 
-For example, let's define a random variable $Y$ that contains a mapping of a
-list of events given by the sum of the faces of two dice rolls. Let's say we
-wanted to find the probability of the event that the faces of the two dice rolls
-sum to $10$ or less. Instead of writing every single possible event---
-e.g. $p(Y = 2 \text{ or } Y = 3 \text{ or } \ldots \text{ or } Y = 10)$---we can
-simply express the event as an inequality, e.g. $p(Y \leq 10)$.
+For example, let's define a random variable $Y$ that contains a mapping of a list of events given by the sum of the faces of two dice rolls. Let's say we wanted to find the probability of the event that the faces of the two dice rolls sum to $10$ or less. Instead of writing every single possible event---e.g. $p(Y = 2 \text{ or } Y = 3 \text{ or } \ldots \text{ or } Y = 10)$---we can simply express the event as an inequality, e.g. $p(Y \leq 10)$.
 
 \subsection{More on Probability}
 
-\newthought{Imagine} a grid formed from the values in the random variable $X$
-and values in the random variable $Y$, where $x_i \in \{\text{Range of } X\}$,
-and where $y_j \in \{\text{Range of } Y\}$, and $i \in \{ 1, 2, \ldots, M \}$,
-and $j \in \{ 1, 2, \ldots, L \}$. $X$ represents the rows, and $Y$ represents
-the columns \sidenote{In the textbook, $X$ represents the columns and $Y$
-represents the rows. Why did I set $X$ to be the rows, $Y$ as the columns? It
-was a total mistake on my part. I'm not gonna change it, though; too much time
-needed. Either ways, trying to mentally remap between the textbook and these
-notes is good excercise anyways}. The total number of trials is $N = ML$. We
-will express a single trial as $n_{ij}$.
+\newthought{Imagine} a grid formed from the values in the random variable $X$ and values in the random variable $Y$, where $x_i \in \{\text{Range of } X\}$, and where $y_j \in \{\text{Range of } Y\}$, and $i \in \{ 1, 2, \ldots, M \}$, and $j \in \{ 1, 2, \ldots, L \}$. $X$ represents the rows, and $Y$ represents the columns \sidenote{In the textbook, $X$ represents the columns and $Y$ represents the rows. Why did I set $X$ to be the rows, $Y$ as the columns? It was a total mistake on my part. I'm not gonna change it, though; too much time needed. Either ways, trying to mentally remap between the textbook and these notes is good excercise anyways}. The total number of trials is $N = ML$. We will express a single trial as $n_{ij}$.
 
-For the probability that we get a row $x_i$, we express $p(X = x_i)$, and for
-column $y_j$, we express $p(Y = y_j)$. Evaluating the probability for $X$ and
-$Y$, we get:
+For the probability that we get a row $x_i$, we express $p(X = x_i)$, and for column $y_j$, we express $p(Y = y_j)$. Evaluating the probability for $X$ and $Y$, we get:
 
 \begin{equation} \label{equation:probbasic}
   p(X = x_i) = \frac{r_i}{N}, p(Y = y_j) = \frac{c_j}{N}
 \end{equation}
 
-\sidenote{N.B. the value $r_i$ and $c_j$ are not same as
-evaluating $n_{ij}$.}
+\sidenote{N.B. the value $r_i$ and $c_j$ are not same as evaluating $n_{ij}$.}
 
-Now, let's say we are to evaluate the probability that we get a specific column,
-and a specific row, we write $p(X = x_i, Y = y_i)$. This is known as a
-\emph{joint probability}. Evaluating for $X$ \emph{and} $Y$, we get:
+Now, let's say we are to evaluate the probability that we get a specific column, and a specific row, we write $p(X = x_i, Y = y_i)$. This is known as a \emph{joint probability}. Evaluating for $X$ \emph{and} $Y$, we get:
 
 \begin{equation} \label{equation:jointprob}
   p(X = x_i, Y = y_j) = \frac{n_{ij}}{N}
 \end{equation}
 
-Notice how we get back $n_{ij}$? This is true even if we are to flip the
-parameters in $p(\cdot, \cdot)$. And so, joint probabilities are symmetric,
+Notice how we get back $n_{ij}$? This is true even if we are to flip the parameters in $p(\cdot, \cdot)$. And so, joint probabilities are symmetric,
 
 \begin{equation}\label{equation:probabilitysymmetry}
   p(X = x_i, Y = y_j) = p(Y = y_j, X = x_i)
 \end{equation}
 
-So now, let's go back to columns and rows. To expand on $p(X = x_i)$, we can
-alternatively evaluate it as:
+So now, let's go back to columns and rows. To expand on $p(X = x_i)$, we can alternatively evaluate it as:
 
 \begin{equation}
   p(X = x_i) = \sum\limits_{j = 1}^Lp(X = x_i, Y = y_j)
@@ -387,14 +314,9 @@ Likewise, for $p(Y = y_j)$:
 
 The above equation expresses the ``sum rule''.
 
-Let's simplify our probability expression. Often times, when we look at the
-event $X = x_i$, we are saying that there exists an $x_i$ from $X$, but in the
-end of the day, we simply don't care about the value of $x_i$. In this case we
-can simplify the expression to write $p(X)$.
+Let's simplify our probability expression. Often times, when we look at the event $X = x_i$, we are saying that there exists an $x_i$ from $X$, but in the end of the day, we simply don't care about the value of $x_i$. In this case we can simplify the expression to write $p(X)$.
 
-\newthought{Now, let's talk about} conditional probability. With conditional
-probability, we can concisely express the probability of some event \emph{given}
-some other event. With events $X$ and $Y$, we express the probability that we
+\newthought{Now, let's talk about} conditional probability. With conditional probability, we can concisely express the probability of some event \emph{given} some other event. With events $X$ and $Y$, we express the probability that we
 get $X$ given $Y$ as $p(X|Y)$. Because we are narrowing our list of
 probabilities down to a specific column ($Y$), then instead of having our
 probability be the ratio over $N$, we have it be the the ratio over the
@@ -446,25 +368,18 @@ And, we can then isolate $p(Y|X)$ in (\ref{equation:alternatesymmetry})
 
 Which is known as \emph{Bayes' Theorem}.
 
-\subsection{Bayesian Thinking}
+\subsection{Transitioning from Frequentist to Bayesian Thinking}
 
-\newthought{To get the motivation} behind Bayes' Theorem, let's think about a
-real world scenario where we can apply Bayesian Thinking.
+\newthought{To get the motivation} behind Bayes' Theorem, let's think about a real world scenario where we can apply Bayesian Thinking.
 
-Let's say we had two boxes, coloured red and blue. The probability of getting
-red is 40\%, and the probability of getting blue is 60\%. The box events will
-be represented by the random variable $B$. We will be abbreviating ``red'' with
-$r$ and ``blue'' with $b$. We would respectively denote them as
+Let's say we had two boxes, coloured red and blue. The probability of getting red is 40\%, and the probability of getting blue is 60\%. The box events will be represented by the random variable $B$. We will be abbreviating ``red'' with$r$ and ``blue'' with $b$. We would respectively denote them as
 
 \begin{align}
   p(B = r) &= 0.4 \\
   p(B = b) &= 0.6
 \end{align}
 
-Both the boxes have a specific number of apples and oranges. The red one has
-two apples and six oranges, and the blue one has three apples and one orange.
-The fruit events will be represented by the random variable $F$. We will also
-be abbreviating ``apple'' with $a$ and ``orange'' with $o$.
+Both the boxes have a specific number of apples and oranges. The red one has two apples and six oranges, and the blue one has three apples and one orange. The fruit events will be represented by the random variable $F$. We will also be abbreviating ``apple'' with $a$ and ``orange'' with $o$.
 
 \begin{marginfigure}
   \includegraphics[width=\linewidth]{fruitboxes.png}
@@ -480,8 +395,7 @@ The probability distribution of each boxes would look like so:
   p(F = o | B = b) &= 0.25
 \end{align}
 
-Then, to find the probability of choosing an apple overall, we simply apply the
-sum and product rule.
+Then, to find the probability of choosing an apple overall, we simply apply the sum and product rule.
 
 \begin{equation}
   \begin{aligned}
@@ -491,20 +405,9 @@ sum and product rule.
   \end{aligned}
 \end{equation}
 
-Since there are only apples and oranges, we can argue that the probability that
-we pick an orange is equally the probability of \emph{not} picking an apple. And
-so by (\ref{equation:probabilitynot}), we can concisely find the probability of
-picking an orange with $p(F = o) = p(F \neq a) = 1 - p(F = a)$ = 0.45.
+Since there are only apples and oranges, we can argue that the probability that we pick an orange is equally the probability of \emph{not} picking an apple. And so by (\ref{equation:probabilitynot}), we can concisely find the probability of picking an orange with $p(F = o) = p(F \neq a) = 1 - p(F = a)$ = 0.45.
 
-Let's say we were asked from which box we had picked a fruit. Without knowing
-what fruit we picked, we only know the probability of the box, which is $p(B)$.
-This is called the \emph{prior probability}. Now, we find out that the fruit
-that we picked was an orange, and we now have a probability $p(B|F)$, which is
-called the \emph{posterior probability}. In Bayes' theorem, we take the prior
-and multiply it with the probability of picking orange given the box, $p(F|B)$.
-$p(F|B)$ is called the \emph{likelihood}. Because we want to find the
-probability of a box given a fruit, we narrow the product $p(F|B)p(B)$ by dividing by
-$p(F)$.
+Let's say we were asked from which box we had picked a fruit. Without knowing what fruit we picked, we only know the probability of the box, which is $p(B)$. This is called the \emph{prior probability}. Now, we find out that the fruit that we picked was an orange, and we now have a probability $p(B|F)$, which is called the \emph{posterior probability}. In Bayes' theorem, we take the prior and multiply it with the probability of picking orange given the box, $p(F|B)$. $p(F|B)$ is called the \emph{likelihood}. Because we want to find the probability of a box given a fruit, we narrow the product $p(F|B)p(B)$ by dividing by $p(F)$.
 
 So to summarize:
 
@@ -512,8 +415,21 @@ So to summarize:
   p(B|F) = \frac{p(F|B)p(B)}{p(F)}
 \end{equation}
 
-Given the above equation, we find that we are more likely to pick from the red
-box, given the fruit is an orange. I will leave it to you to verify.
+Given the above equation, we find that we are more likely to pick from the red box, given the fruit is an orange. I will leave it to you to verify.
+
+\subsection{Generalizing Bayes Theorem}
+
+Recall that baye's theorem can be summarized in the following equation
+
+\begin{equation}
+  p(X|Y) = \frac{\overbrace{p(Y|X)}^{\text{posterior}}\overbrace{p(X)}^{\text{prior}}}{\underbrace{p(Y)}_{\text{constant}}}
+\end{equation}
+
+In the above equation, the divisor $p(Y)$ is a constant. Therefore we can interpret baye's theorem to be
+
+\begin{equation}
+  p(X|Y) \propto p(Y|X) \times P(X)
+\end{equation}
 
 \subsection{Some stuff about Bernoulli trials}
 
@@ -521,13 +437,9 @@ box, given the fruit is an orange. I will leave it to you to verify.
 % was in my notebook. Regardless, I have typed out the following, in order to
 % avoid the risk of losing any of it, in case my notebook burns up somehow.}:
 
-\newthought{Earlier}, we talked about probabilities in general, as well as
-bayes theorem. Here, we are going to talk about probabilities of random
-variables that only have two events, and two events only. We are going to talk
-about Bernoulli trials.
+\newthought{Earlier}, we talked about probabilities in general, as well as bayes theorem. Here, we are going to talk about probabilities of random variables that only have two events, and two events only. We are going to talk about Bernoulli trials.
 
-Let's say we had two events, $a$ and $b$, such that it has the following
-probability distributions
+Let's say we had two events, $a$ and $b$, such that it has the following probability distributions
 
 \begin{equation}
   \begin{aligned}
@@ -536,21 +448,13 @@ probability distributions
   \end{aligned}
 \end{equation}
 
-Now, let's define a $\mathcal{D} = \{x_1, x_2, \ldots, x_N\}$, such that it
-contains an arbitrary $N$ number of events of either $a$ or $b$, except, let's
-replace the event $a$ to equal $1$, and $b$ to equal $0$.
+Now, let's define a $\mathcal{D} = \{x_1, x_2, \ldots, x_N\}$, such that it contains an arbitrary $N$ number of events of either $a$ or $b$, except, let's replace the event $a$ to equal $1$, and $b$ to equal $0$.
 
-To get the probability of $\mathcal{D}$, we have the probabilities of $a$ and
-$b$, and so, for each element of $\mathcal{D}$, we have some $\mu$ that dictates
-whether the said element is $a$, or $b$.
+To get the probability of $\mathcal{D}$, we have the probabilities of $a$ and $b$, and so, for each element of $\mathcal{D}$, we have some $\mu$ that dictates whether the said element is $a$, or $b$.
 
 A concise way to express the above would be $p(\mathcal{D}|\mu)$.
 
-It gets even better. Notice how we defined $a = 1$, and $b = 0$? And also,
-$p(a) = \mu$ and $p(b) = 1 - \mu$. Let's define a $c$ so that it is either $a$
-or $b$. This means we can generalize $p(a)$ and $p(b)$ so that
-$p(c) = \mu^c(1 - \mu)^c$. And remember, since $c$ can either $a$ or $b$; this
-ultimately means that $c$ can either by $0$ or $1$!
+It gets even better. Notice how we defined $a = 1$, and $b = 0$? And also, $p(a) = \mu$ and $p(b) = 1 - \mu$. Let's define a $c$ so that it is either $a$ or $b$. This means we can generalize $p(a)$ and $p(b)$ so that $p(c) = \mu^c(1 - \mu)^c$. And remember, since $c$ can either $a$ or $b$; this ultimately means that $c$ can either by $0$ or $1$!
 
 And so, expanding $p(\mathcal{D}|\mu)$, we get
 
